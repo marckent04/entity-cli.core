@@ -5,9 +5,8 @@ const path = require("path");
 
 const { inquirer } = require("./index");
 const { getEntity } = require("../index");
-const { createPath } = require("../common");
 const { entityCreationQuestions } = require("./questions");
-const { fileExists, canBeInit } = require("../../common/common");
+const { fileExists, canBeInit, createPath } = require("../common");
 
 const createImport = (from, to) => {
   const removeExtensionregex = /(.ts|.js)$/i;
@@ -39,7 +38,7 @@ const addPropertyConstructor = ({
             makerProperty,
             questions,
           }),
-          arCli
+          arCli,
         );
     } catch (error) {
       consola.error(error);
@@ -71,8 +70,8 @@ const addRelationConstructor = ({
             await relationsMaker.oto(
               await getEntity(currentEntityPath.file),
               entity,
-              createImport(currentEntityPath.folder, targetEntityPath.file)
-            )
+              createImport(currentEntityPath.folder, targetEntityPath.file),
+            ),
           );
           break;
         case "otm":
@@ -82,7 +81,7 @@ const addRelationConstructor = ({
             entityName,
             entity,
             createImport(currentEntityPath.folder, targetEntityPath.file),
-            createImport(targetEntityPath.folder, currentEntityPath.file)
+            createImport(targetEntityPath.folder, currentEntityPath.file),
           );
           await entityManager.update(currentEntityPath.file, result.one);
           await entityManager.update(targetEntityPath.file, result.many);
@@ -94,7 +93,7 @@ const addRelationConstructor = ({
             entity,
             entityName,
             createImport(targetEntityPath.folder, currentEntityPath.file),
-            createImport(currentEntityPath.folder, targetEntityPath.file)
+            createImport(currentEntityPath.folder, targetEntityPath.file),
           );
 
           await entityManager.update(currentEntityPath.file, result.many);

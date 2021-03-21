@@ -1,9 +1,10 @@
 const storage = require("node-persist");
-const { camelCase } = require("../common");
-const { existingEntities } = require("../index");
-const { createPath } = require("../common");
-const { entityPropertyExists } = require("../../common/entity");
-const { getEntity } = require("../entity");
+const { createPath, camelCase } = require("../common");
+const {
+  getEntity,
+  entityPropertyExists,
+  existingEntities,
+} = require("../entity");
 const { getModules, getRelationModules } = require("../features/module-mode");
 const { getModuleMode } = require("../configFile");
 
@@ -20,7 +21,7 @@ const validateProperty = async (propertyName, entityName, breakpoint) => {
     const propertyExists = entityPropertyExists(
       await getEntity(entityPath.file),
       breakpoint,
-      propertyName
+      propertyName,
     );
     if (propertyExists) {
       return "Property already defined";
