@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const storage = require("node-persist");
+
 const {
   rootDir,
   defaultDirectory,
@@ -29,8 +30,9 @@ const getOrm = () => {
 };
 
 const getConfigFile = () => {
-  if (configFileExists())
+  if (configFileExists()) {
     return JSON.parse(fs.readFileSync(configFile).toString());
+  }
   return null;
 };
 
@@ -54,6 +56,7 @@ const getSrcPathFormConfigFile = () => {
 const getEntitiesLocation = async (mod = null) => {
   const directoryPath = getSrcPathFormConfigFile();
   let src = ".";
+
   if (!mod) mod = await storage.getItem("currentModule");
   const config = getConfigFile();
   if (config && config.src) src = config.src;
