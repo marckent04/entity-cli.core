@@ -29,17 +29,18 @@ const addPropertyConstructor = ({
       const { name, type, add, required } = answers;
       entityManager.append(entityName, makerProperty[type](name, required));
       consola.success(chalk.green(`the ${name} column has been created `));
-      if (add)
+      if (add) {
         addCli(
-          entityName,
-          addPropertyConstructor({
-            entityManager,
-            addCli,
-            makerProperty,
-            questions,
-          }),
-          arCli,
+            entityName,
+            addPropertyConstructor({
+              entityManager,
+              addCli,
+              makerProperty,
+              questions,
+            }),
+            arCli,
         );
+      }
     } catch (error) {
       consola.error(error);
     }
@@ -108,7 +109,19 @@ const addRelationConstructor = ({
       }
 
       consola.success(chalk.green("relation etablished"));
-      if (add) addCli(entityName, apCli, cli);
+
+      if (add) {
+        addCli(
+            entityName,
+            apCli,
+        addRelationConstructor({
+          entityManager,
+          addCli,
+          relationsMaker,
+          questions,
+        })
+        );
+      }
     } catch (error) {
       consola.error(error);
     }
@@ -120,27 +133,28 @@ const baseCliConstructor = ({
   addPropertyCli,
   addRelationCli,
   addCli,
-}) => async () =>
-  inquirer
-    .prompt(await entityCreationQuestions())
-    .then(async ({ name, module }) => {
-      const exists = await fileExists(name, module);
+}) => async () => {
+  return inquirer
+      .prompt(await entityCreationQuestions())
+      .then(async ({ name, module }) => {
+        const exists = await fileExists(name, module);
 
-      if (module) await storage.updateItem("currentModule", module);
+        if (module) await storage.updateItem("currentModule", module);
 
-      if (!exists) {
-        await entityManager.create(name);
-      } else {
-        if (await canBeInit(name, module)) {
+        if (!exists) {
           await entityManager.create(name);
-          consola.info(`entity ${name} initialized`);
         } else {
-          consola.info(`update ${name}`);
+          if (await canBeInit(name, module)) {
+            await entityManager.create(name);
+            consola.info(`entity ${name} initialized`);
+          } else {
+            consola.info(`update ${name}`);
+          }
         }
-      }
 
-      addCli(name, addPropertyCli, addRelationCli);
-    });
+        addCli(name, addPropertyCli, addRelationCli);
+      });
+}
 
 module.exports = {
   addPropertyConstructor,

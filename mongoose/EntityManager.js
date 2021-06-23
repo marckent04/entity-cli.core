@@ -17,7 +17,7 @@ class MongooseManager extends BaseEntityManager {
     return `
       import * as mongoose from 'mongoose'
       
-      export const ${name} = new mongoose.Schema({ timestamps: true }, {})
+      export const ${name} = new mongoose.Schema({}, { timestamps: true })
     `;
   }
 
@@ -27,27 +27,28 @@ class MongooseManager extends BaseEntityManager {
       
       export interface ${name}Interface extends mongoose.Document {}
 
-      export const ${name} = new mongoose.Schema({ timestamps: true }, {})
+      export const ${name} = new mongoose.Schema({}, { timestamps: true })
     `;
   }
 
   static async append(entityName, contentToAdd) {
     const parser = new TypescriptParser();
 
+
     const content = await this.getEntityContent(entityName);
 
     const parsed = await parser.parseSource(content);
 
     const entity = parsed.declarations.find(
-        (declaration) =>
-            declaration instanceof VariableDeclaration &&
-            declaration.name == camelCase(entityName),
+      (declaration) =>
+        declaration instanceof VariableDeclaration &&
+        declaration.name == camelCase(entityName),
     );
 
     if (entity) {
       const entityContent = content.slice(entity.start, entity.end);
 
-      const sliceIndex = entityContent.lastIndexOf("}");
+      const sliceIndex = entityContent.indexOf("}");
 
       const begin = entityContent.slice(0, sliceIndex);
 
@@ -75,9 +76,9 @@ class MongooseManager extends BaseEntityManager {
     const parsed = await parser.parseSource(content);
 
     const entity = parsed.declarations.find(
-        (declaration) =>
-            declaration instanceof InterfaceDeclaration &&
-            declaration.name == `${camelCase(entityName)}Interface`,
+      (declaration) =>
+        declaration instanceof InterfaceDeclaration &&
+        declaration.name == `${camelCase(entityName)}Interface`,
     );
 
     if (entity) {

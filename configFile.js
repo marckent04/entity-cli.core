@@ -43,10 +43,11 @@ const getModuleMode = () => {
 
 const getSrcPathFormConfigFile = () => {
   const config = getConfigFile();
-  if (getModuleMode())
+  if (getModuleMode()) {
     return config.modulesDir
-      ? path.join(rootDir, config.modulesDir)
-      : moduleDefaultDirectory;
+        ? path.join(rootDir, config.modulesDir)
+        : moduleDefaultDirectory;
+  }
 
   return config && config.src
     ? path.join(rootDir, config.src)

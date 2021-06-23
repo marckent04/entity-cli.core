@@ -58,7 +58,7 @@ class BaseEntityManager {
 
   static async getEntityContent(entityName) {
     const filePath = await this.createPath(entityName);
-    return fs.readFileSync(filePath);
+    return fs.readFileSync(filePath,  'utf8');
   }
 
   static async append(nameOrContent, newContent, endTag) {

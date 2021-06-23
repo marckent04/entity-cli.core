@@ -1,7 +1,7 @@
 const prettier = require("prettier");
 
 const config = {
-  semi: false,
+  semi: true,
   parser: "typescript",
   trailingComma: "all",
 };

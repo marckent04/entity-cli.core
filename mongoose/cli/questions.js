@@ -2,7 +2,7 @@ const { mongoose } = require("../../destructuringBreakpoints");
 const { entityCreationQuestions } = require("../../cli/questions");
 const { getModuleMode } = require("../../configFile");
 const { getRelationModules } = require("../../features/module-mode");
-const { existingEntities } = require("../../index");
+const { existingEntities } = require("../../entity");
 
 const storage = require("node-persist");
 const {
@@ -42,8 +42,7 @@ const addRelationQuestions = (entity) => {
       message: "Choose the entity",
       source: async (previous, _) => {
         const { module } = previous;
-        const entities = await existingEntities(entity, module);
-        return entities;
+        return await existingEntities(entity, module);
       },
     },
     {

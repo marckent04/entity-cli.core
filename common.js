@@ -32,8 +32,8 @@ const createPath = async (entityName, module = null) => {
   };
 };
 
-const camelCase = (input) =>
-  camelcase(input, { pascalCase: true, preserveConsecutiveUppercase: true });
+const camelCase = (input, capitalize = true) =>
+  camelcase(input, { pascalCase: capitalize, preserveConsecutiveUppercase: true });
 
 module.exports = {
   fileExists,
