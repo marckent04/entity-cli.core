@@ -34,7 +34,6 @@ class MongooseManager extends BaseEntityManager {
   static async append(entityName, contentToAdd) {
     const parser = new TypescriptParser();
 
-
     const content = await this.getEntityContent(entityName);
 
     const parsed = await parser.parseSource(content);
