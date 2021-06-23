@@ -47,7 +47,18 @@ class MongooseManager extends BaseEntityManager {
     if (entity) {
       const entityContent = content.slice(entity.start, entity.end);
 
-      const sliceIndex = entityContent.indexOf("}");
+      const regex = new RegExp("}", "gi");
+      const indices = [];
+      let result;
+
+      let sliceIndex = entityContent.lastIndexOf("}");
+
+      if (entityContent.indexOf("timestamp")) {
+        while ((result = regex.exec(entityContent))) {
+          indices.push(result.index);
+        }
+        sliceIndex = indices[indices.length - 2];
+      }
 
       const begin = entityContent.slice(0, sliceIndex);
 
