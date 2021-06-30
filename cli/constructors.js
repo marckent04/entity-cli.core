@@ -4,7 +4,7 @@ const chalk = require("chalk");
 const path = require("path");
 
 const { inquirer } = require("./index");
-const { getEntity } = require("../index");
+const { getEntity } = require("../entity");
 const { entityCreationQuestions } = require("./questions");
 const { fileExists, canBeInit, createPath } = require("../common");
 
