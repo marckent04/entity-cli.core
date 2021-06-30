@@ -8,22 +8,21 @@ class TypeOrmManager extends BaseEntityManager {
   }
 
   static template(name) {
-    return [
-      'import {Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, BaseEntity } from "typeorm"',
-      "",
-      "@Entity()",
-      `export class ${capitalize(name)} extends BaseEntity {`,
-      "@PrimaryGeneratedColumn()",
-      "id: number",
-      "",
-      "@CreateDateColumn()",
-      "createDate: Date",
-      "",
-      "@UpdateDateColumn()",
-      "updateDate: Date",
-      "",
-      "}",
-    ];
+    return `
+    import {Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, BaseEntity } from "typeorm"
+    
+    @Entity()
+    export class ${capitalize(name)} extends BaseEntity {
+    @PrimaryGeneratedColumn()
+    id: number
+    
+    @CreateDateColumn()
+    createDate: Date
+    
+    @UpdateDateColumn()
+    updateDate: Date
+    }
+    `;
   }
 
   static async append(nameOrContent, newContent) {
