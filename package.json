@@ -1,6 +1,6 @@
 {
   "name": "entity-cli.core",
-  "version": " 0.4.0-alpha9",
+  "version": " 0.4.0-alpha10",
   "description": "entity-cli core",
   "main": "index.js",
   "homepage": "https://www.npmjs.com/package/entity-cli.core#readme",
