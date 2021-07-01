@@ -3,6 +3,7 @@ const capitalize = require("lodash.capitalize");
 const { addEntityImport, addOrmImport } = require("../../import");
 const EntityManager = require("../EntityManager");
 const { typeORM } = require("../../destructuringBreakpoints");
+const { camelCase } = require("../../common");
 
 class Maker {
   static async otmCommon(
@@ -13,27 +14,26 @@ class Maker {
     oneRelativePath,
     manyRelativePath
   ) {
+    entityName = camelCase(entityName);
+    relationEntityName = camelCase(relationEntityName);
+
     const one = {
       typeOrmImport: ["OneToMany"],
       newContent: [
-        `@OneToMany(type =>  ${capitalize(
-          relationEntityName
-        )},  ${relationEntityName.toLowerCase()} => ${relationEntityName.toLowerCase()}.${entityName.toLowerCase()})`,
-        `${relationEntityName.toLowerCase()}s: ${capitalize(
-          relationEntityName
-        )}[];`,
+        `@OneToMany(type =>  ${relationEntityName},  ${relationEntityName.toLowerCase()} => ${relationEntityName.toLowerCase()}.${entityName.toLowerCase()})`,
+        `${relationEntityName.toLowerCase()}s: ${relationEntityName}[];`,
       ],
     };
+
 
     const many = {
       typeOrmImport: ["ManyToOne"],
       newContent: [
-        `\n\t@ManyToOne(type => ${capitalize(
-          entityName
-        )}, ${entityName.toLowerCase()} => ${entityName.toLowerCase()}.${relationEntityName.toLowerCase()}s)`,
-        `\t${entityName.toLowerCase()}: ${capitalize(entityName)}`,
+        `\n\t@ManyToOne(type => ${entityName}, ${entityName.toLowerCase()} => ${entityName.toLowerCase()}.${relationEntityName.toLowerCase()}s)`,
+        `\t${entityName.toLowerCase()}: ${entityName}`,
       ],
     };
+
 
     return {
       one: await this.common(
@@ -64,6 +64,8 @@ class Maker {
     newContent,
     entityToImportRelativePath
   ) {
+    relationEntity = camelCase(relationEntity);
+
     const content = addEntityImport(
       this.addTypeOrmImport(entityContent, typeOrmImport),
       relationEntity,
@@ -76,10 +78,13 @@ class Maker {
   }
 
   static async oto(entityContent, relationEntity, entityToImportRelativePath) {
+    
+    relationEntity = camelCase(relationEntity)
+
     const newContent = [
-      `\t@OneToOne(type => ${capitalize(relationEntity)})`,
+      `\t@OneToOne(type => ${relationEntity})`,
       "\t@JoinColumn()",
-      `\t${relationEntity.toLowerCase()}: ${capitalize(relationEntity)};`,
+      `\t${relationEntity.toLowerCase()}: ${relationEntity};`,
     ];
 
     return await this.common(

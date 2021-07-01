@@ -1,5 +1,4 @@
-const capitalize = require("lodash.capitalize");
-
+const { camelCase } = require("./common")
 const { entityDestructuring } = require("./entity");
 
 const addOrmImport = (ormImport) => (entityContent, toImport) => {
@@ -38,7 +37,7 @@ const addEntityImport = (
   let { imports, body } = entityDestructuring(entityContent, breakpoint);
   imports = [
     ...imports,
-    `import { ${capitalize(entityToImport)} } from "${entityToImportPath}"`,
+    `import { ${camelCase(entityToImport)} } from "${entityToImportPath}"`,
     "",
   ];
 

@@ -6,12 +6,13 @@ const path = require("path");
 const { inquirer } = require("./index");
 const { getEntity } = require("../entity");
 const { entityCreationQuestions } = require("./questions");
-const { fileExists, canBeInit, createPath } = require("../common");
+const { fileExists, canBeInit, createPath, camelCase } = require("../common");
 
 const createImport = (from, to) => {
   const removeExtensionregex = /(.ts|.js)$/i;
   const relativePathRegex = /^\.?\.\//;
   let importPath = path.relative(from, to).replace(removeExtensionregex, "");
+  importPath = importPath.replace(/\\/g, "/");
   if (!relativePathRegex.test(importPath))
     importPath = ["./", ...importPath].join("");
 

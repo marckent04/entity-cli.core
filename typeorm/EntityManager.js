@@ -1,4 +1,3 @@
-const capitalize = require("lodash.capitalize");
 const BaseEntityManager = require("../BaseEntity");
 const { linter } = require("../linter");
 const { camelCase } = require("../common");
@@ -16,7 +15,7 @@ class TypeOrmManager extends BaseEntityManager {
     import {Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, BaseEntity } from "typeorm"
     
     @Entity()
-    export class ${capitalize(name)} extends BaseEntity {
+    export class ${camelCase(name)} extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
     
