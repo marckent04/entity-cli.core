@@ -1,5 +1,9 @@
 module.exports = class Maker {
   static common(typeDb, name, mandatory = true, typeJs = null) {
+    if (typeJs && typeJs == "date") {
+        typeJs = typeJs.toUpperCase();
+    }
+
     return [
       `@Column({type: "${typeDb}"${mandatory ? "" : ", nullable: true"}})`,
       `${name}: ${typeJs || typeDb}\n`,
