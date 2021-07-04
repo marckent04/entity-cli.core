@@ -15,7 +15,7 @@ const relationsChoices = [
   { value: "oto", name: "One-to-one" },
   { value: "otm", name: "One-to-many" },
   { value: "mto", name: "Many-to-one" },
-  // { value: "mtm", name: "Many-to-many" },
+  { value: "mtm", name: "Many-to-many" },
 ];
 
 const addRelationQuestions = addRelationsConstructor(relationsChoices);

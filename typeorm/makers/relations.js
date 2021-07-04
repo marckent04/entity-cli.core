@@ -112,12 +112,25 @@ class Maker {
       oneRelativePath,
       manyRelativePath
     );
-
-    // throw new Error("Fonctionnalite pas encore disponible");
   }
 
-  static mtm(name, required) {
-    throw new Error("Fonctionnalite pas encore disponible");
+  static async mtm(entityContent, relationEntity, entityToImportRelativePath) {
+    
+    relationEntity = camelCase(relationEntity)
+
+    const newContent = [
+      `\t@ManyToMany(() => ${relationEntity})`,
+      "\t@JoinTable()",
+       `${relationEntity.toLowerCase()}s: ${relationEntity}[];`,
+    ];
+  
+    return await this.common(
+      entityContent,
+      relationEntity,
+      ["ManyToMany", "JoinTable"],
+      newContent,
+      entityToImportRelativePath
+    );
   }
 }
 
