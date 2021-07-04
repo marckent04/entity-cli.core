@@ -102,7 +102,17 @@ const addRelationConstructor = ({
           await entityManager.update(targetEntityPath.file, result.one);
 
           break;
-        default:
+        case "mtm":
+            await entityManager.update(
+              currentEntityPath.file,
+              await relationsMaker.mtm(
+                await getEntity(currentEntityPath.file),
+                entity,
+                createImport(currentEntityPath.folder, targetEntityPath.file),
+              ),
+            );
+            break;
+          default:
           if (relationsMaker[relation]) {
             entityManager.append(entityName, relationsMaker[relation](entity));
           }
