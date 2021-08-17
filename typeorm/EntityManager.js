@@ -20,10 +20,10 @@ class TypeOrmManager extends BaseEntityManager {
     id: number
     
     @CreateDateColumn()
-    createDate: Date
+    createdAt: Date
     
     @UpdateDateColumn()
-    updateDate: Date
+    updatedAt: Date
     }
     `;
   }
